@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var app = express();
 
 
-var db = 'mongodb://localhost/blog';
+var db = 'mongodb://sanslan:Troyan88@ds255319.mlab.com:55319/sn-express-blog';
 
 mongoose.connect(db);
 
