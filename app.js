@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 
 var app = express();
 
+var port = process.env.PORT || 3000;
+
 
 var db = 'mongodb://sanslan:Troyan88@ds255319.mlab.com:55319/sn-express-blog';
 
@@ -51,4 +53,4 @@ app.get('/addbook', function(req, res) {
   });
 });
 
-app.listen(3000);
+app.listen(port);
