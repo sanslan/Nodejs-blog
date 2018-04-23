@@ -1,0 +1,32 @@
+
+<!-- Main Content -->
+{{> site-top }}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-8 mx-auto">
+
+      {{ sumPages }}
+      
+      {{#each posts}}
+        <div class="post-preview">
+        <a href="post/{{ url }}">
+          <h2 class="post-title"> {{ title }}</h2>
+          <h3 class="post-subtitle">{{ striptScript description }}</h3>
+        </a>
+        <p class="post-meta">Posted by
+          <a href="#">Start Bootstrap</a>
+          on September 24, 2018</p>
+        </div>
+        <hr>
+      {{/each}}
+      <!-- Pager -->
+      <div class="clearfix">
+        {{#unless isFirstPage}}
+          <a class="btn btn-primary float-left" href="?page={{ prevPage }}"> &larr; Previous Posts </a>
+        {{/unless}}
+        
+        <a class="btn btn-primary float-right" href="?page={{ nextPage }}">Older Posts &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>
