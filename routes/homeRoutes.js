@@ -9,8 +9,6 @@ router.get('/',async function (req, res) {
 
 	var nextPage = parseInt(page)+1;
 	var prevPage = parseInt(page)-1;
-	var isFirstPage = (page == 1) ? true: false;
-	var isLastPage = (page == 1) ? true: false;
 
 	var sum;
 
@@ -23,26 +21,12 @@ router.get('/',async function (req, res) {
 	    }
 	]);
 	sum = count[0].count;
+	var isFirstPage = (page == 1) ? true: false;
+	var isLastPage = (page == Math.ceil(sum/limit)) ? true : false;
 	var posts = await Post.find({})
 	    		.skip((page-1)*limit)
 	    		.limit(limit)
-	res.render('index',{posts: posts,nextPage:nextPage,prevPage:prevPage,isFirstPage: isFirstPage,sumPages: sum});
-	//res.render( 'test', { sumPages: count[0].count});
-
-	// .then( (count) => {
-	//      	sum=count[0].count
-	// })
-	// .then(() =>{
- //     	Post.find({})
- //     		.skip((page-1)*limit)
- //     		.limit(limit)
- //     		.then((posts) =>{
- //     			posts=posts;
- //     	})
-	// })
-	// .then( () =>{
-	// 	res.render('index',{posts: posts,nextPage:nextPage,prevPage:prevPage,isFirstPage: isFirstPage,sumPages: sum});
-	// } )
+	res.render('index',{posts: posts,nextPage:nextPage,prevPage:prevPage,isFirstPage: isFirstPage,isLastPage: isLastPage,sumPages: sum});
 });
 // define the about route
 router.get('/about', function (req, res) {
