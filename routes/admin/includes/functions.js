@@ -16,7 +16,7 @@ var renderCategories = (res, categories, selectedCategory = null,parentCategorie
     });
 
     Promise.all(newCategories).then((cats) => {
-        res.render("admin/createcategory", {
+        res.render("admin/createCategory", {
             layout: 'admin',
             categories: cats,
             selectedCategory: selectedCategory,
