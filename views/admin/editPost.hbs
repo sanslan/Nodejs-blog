@@ -1,0 +1,39 @@
+<div class="col-md-9">
+    <form method="POST" action="/admin/post" >
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="id" value="{{ post._id }}">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Post title:</label>
+            <input name='title' type="text" class="form-control" placeholder="Title" value="{{ post.title }}">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Post body:</label>
+            <textarea class="form-control" name="body" id="exampleInputPassword1" cols="30" rows="10">
+                {{ post.body }}
+            </textarea>
+        </div>
+        <div class="form-group">
+            <label>Post categories:</label>
+            <select class="post-categories-multiple" name="categories" multiple="multiple">
+                {{#each categories}}
+                <option 
+                    {{#if selected}}
+                        selected
+                    {{/if}}
+                   value="{{ _id }}"> {{ name }} </option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="input-tags">Post tags:</label>
+            <input name="tags" type="text" value="{{ post.tags }}" id="input-tags" class="demo-default">
+        </div>
+        <div class="form-group">
+            
+            <label for="exampleInputFile">File input</label>
+            <input type="file" id="post-image-input" name='file'>
+            <img width="200px" id="post-image" src="{{ thumbnail }}" style="margin-top:10px"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

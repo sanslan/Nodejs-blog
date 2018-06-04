@@ -1,4 +1,3 @@
-
 <!-- Main Content -->
 {{> site-top }}
 <div class="container">
@@ -10,7 +9,7 @@
             <img src="/images/{{ thumbnail }}" class="media-object mr-3" style="width:200px">
           </div>
           <div class="media-body">
-            <a href="/post/{{ _id }}">
+            <a href="post/{{ _id }}">
               <h4 class="media-heading">{{ title }}</h4>
             </a>
             
@@ -30,9 +29,8 @@
       </div>
     </div>
     <div class="col-md-3">
-      <h3 class="mb-4">Kategoriyalar</h3>
       {{#each categories}}
-        <h6><a href="/category/{{ url }}">{{ name }}</a></h6>
+        <div><a href="/category/{{ url }}">{{ name }}</a></div>
       {{/each}}
     </div>
   </div>

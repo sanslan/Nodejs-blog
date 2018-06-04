@@ -147,3 +147,5 @@
          $(".navbar-toggle i").toggleClass("ti-menu").addClass("ti-close");
      });
  });
+
+ console.log('dsfdsfds');

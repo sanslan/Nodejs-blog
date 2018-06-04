@@ -1,0 +1,42 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+   
+ <div id="signupbox" style=" margin-top:10%" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="panel panel-info" style="max-width: 500px;margin: 0 auto">
+        <div class="panel-heading" style="height: 50px;">
+            Login
+            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/admin/register" ">Register</a></div>
+        </div>  
+        <div class="panel-body" >
+            <form  class="form-horizontal" method="POST" action="/admin/login">
+                        
+                <div class="form-group">
+                    <label for="firstname" class="col-md-3 control-label">Username</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="username" placeholder="Username">
+                    </div>
+                </div>
+
+                    
+                <div class="form-group">
+                    <label for="password" class="col-md-3 control-label">Password</label>
+                    <div class="col-md-9">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                </div>
+
+                
+                <div class="form-group">                                      
+                    <div class="col-md-offset-3 col-md-9">
+                        <input type='submit' class=" form-control btn-info btn-block" value="Register">
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>       
+                
+</div> 

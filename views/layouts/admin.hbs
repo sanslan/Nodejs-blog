@@ -1,13 +1,19 @@
 <!-- Include site header  -->
 {{> admin/header }}
+<!-- Include site top bar  -->
+{{> admin/topbar }}
 
+<!-- Include site top bar  -->
+{{> admin/sidebar }}
 
-
-<!-- Include site top  -->
-
-
-
-{{{body}}}
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row" style="margin-top:50px">
+            {{{body}}}
+        </div>
+    </div>
+    <footer class="footer text-center"> 2017 &copy; Ample Admin brought to you by wrappixel.com </footer>
+</div>
 
 
 {{> admin/footer }}

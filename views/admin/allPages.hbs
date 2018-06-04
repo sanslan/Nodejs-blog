@@ -1,0 +1,29 @@
+<div class="col-md-10 col-md-offset-1">
+    <h2 class="text-center">List pages</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>title</th>
+                <th>delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each pages}}
+            <tr>
+
+                <td>
+                    <a href="/admin/page/edit/{{ _id }}">
+                         {{ title }}
+                    </a>
+                </td>
+                <td style="width:100px">
+                    <form method="POST" action="/admin/post/delete/{{ _id }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" class="btn btn-danger btn-xs" value="Remove">
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

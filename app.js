@@ -1,79 +1,89 @@
 var express = require('express');
 var path = require('path');
-var Handlebars = require('handlebars');
-var exphbs  = require('express-handlebars');
+var multer = require('multer');
+var session = require('express-session');
 var mongoose = require('mongoose');
-
-var app = express();
-
-var port = process.env.PORT || 3000;
+const MongoStore = require('connect-mongo')(session);
 
 var mlab='mongodb://sanslan:Troyan88@ds255319.mlab.com:55319/sn-express-blog';
 var localdb='mongodb://localhost/blog'
 var db = localdb;
 
-mongoose.connect(db);
+mongoose.connect(mlab);
+
+var app = express();
+//Handlebars config
+require('./config/hbsConfig')(app);
+var port = process.env.PORT || 3000;
+
+app.set('trust proxy', 1) // trust first proxy
+
+//Sessions
+app.use(session({
+  secret: 'abc123',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
+
+
+//require('./config/mongodbConfig');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images',express.static(path.join(__dirname, 'uploads')));
 
-
-app.engine('hbs', exphbs({
-	defaultLayout: 'main',
-	extname: '.hbs',
-	helpers: {
-	    striptScript: context =>  {return new Handlebars.SafeString(context)},
-	}
-}));
-app.set('view engine', 'hbs');
+//Bodyparser config
+require('./config/bodyParserConfig')(app);
 
 
 //Blog routes
 var homeRoutes = require('./routes/homeRoutes');
 var singlePost = require('./routes/singlePost');
-var indexAdmin = require('./routes/admin/index');
+var categoryRoute = require('./routes/categoryRoutes');
+var pageRoute = require('./routes/pageRoutes');
 
 app.use('/', homeRoutes);
 app.use('/post', singlePost);
-app.use('/admin', indexAdmin);
+app.use('/category', categoryRoute);
+app.use('/page', pageRoute);
 
-var Post = require('./models/posts');
+function requiresLogin(req, res, next) {
+  if (req.session && req.session.userId) {
+    return next();
+  } else {
+    res.redirect('/')
+  }
+}
 
+function isNotRegistered(req, res, next) {
+  if (!req.session.userId) {
+    return next();
+  } else {
+    res.redirect('/admin')
+  }
+}
 
+//Admin routes
+var register = require('./routes/admin/register');
+var logout = require('./routes/admin/logout');
+var login = require('./routes/admin/login');
+var adminIndex = require('./routes/admin/index');
+var adminPost = require('./routes/admin/post');
+var adminCategory = require('./routes/admin/category');
+var adminPage = require('./routes/admin/page');
 
+app.use('/admin/register',isNotRegistered, register);
+app.use('/admin/logout',requiresLogin, logout);
+app.use('/admin/login',isNotRegistered, login);
+app.use('/admin',requiresLogin, adminIndex);
+app.use('/admin/post',requiresLogin, adminPost);
+app.use('/admin/category',requiresLogin, adminCategory);
+app.use('/admin/page',requiresLogin, adminPage);
 
-app.get('/addbook', function(req, res) {
-  var newPost = new Post();
-
-  newPost.title = "Menim postum23";
-  newPost.body = "Menim postumun metni budur23";
-  newPost.description = "Menim postumun metni budur23";
-  newPost.url = "post23";
-
-  newPost.save(function(err, book) {
-    if(err) {
-      res.send('error saving book');
-    } else {
-      console.log(book);
-      res.send(book);
-    }
-  });
-});
-
-var Category = require('./models/categories');
-app.get('/admin/addcategory', function(req, res) {
-  var newCat = new Category();
-
-  newCat.name = "travel";
-  newCat.url = "travel";
-
-  newCat.save(function(err, book) {
-    if(err) {
-      res.send(err);
-    } else {
-      console.log(book);
-      res.send(book);
-    }
-  });
-});
+app.get('/admin/test', (req, res, next) => {
+  //req.session.sas= "qoca";
+  res.send(req.session.sas)
+  console.log(req.session.sas);
+})
 
 app.listen(port);

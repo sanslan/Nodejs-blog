@@ -1,0 +1,70 @@
+<div class="col-md-10 col-md-offset-1">
+    <h2 class="text-center">List posts</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>title</th>
+                <th>categories</th>
+                <th>tags</th>
+                <th>delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each posts}}
+            <tr>
+
+                <td>
+                    <a href="/admin/post/edit/{{ _id }}">
+                         {{ title }}
+                    </a>
+                </td>
+                <td>
+                    {{#each categories}}
+                      {{ name }} |
+                    {{/each}} 
+                </td>
+                <td>
+                    {{#if tags}}
+                        {{#each tags}}
+                            {{ this }} | 
+                        {{/each}}
+                     {{/if}}
+                </td>
+                <td>
+                    <form method="POST" action="/admin/post/delete/{{ _id }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" class="btn btn-danger btn-xs" value="Remove">
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        {{#if pagination}}
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+
+            {{#each pagination}}
+            <li class="page-item {{#if_eq this ../curPage 'active'}} {{/if_eq}}">
+                <a class="page-link" href="?page={{ this }}">{{ this }}</a>
+            </li>
+            {{/each}}
+
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+        {{/if}}
+
+
+    </nav>
+</div>

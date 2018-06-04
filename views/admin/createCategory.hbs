@@ -1,0 +1,104 @@
+<div class="col-md-6">
+
+    <h2 class="text-center">Create category</h2>
+    <form style="margin-top:50px" method="POST" action="/admin/category" >
+    {{#if selectedCategory}}
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="id" value="{{ selectedCategory._id }}">
+    {{/if}}
+        <div class="form-group">
+            <label >Category name</label>
+            <input 
+            {{#if selectedCategory}}
+                value="{{ selectedCategory.name }}"
+            {{/if}}
+            type="text" class="form-control" name="name"  placeholder="name">
+        </div>
+        <div class="form-group">
+            <label>Category link</label>
+            <input
+            {{#if selectedCategory}} value="{{ selectedCategory.url }}" {{/if}}
+             type="text" class="form-control" name="link" placeholder="link">
+        </div>
+        <div class="form-group">
+            <label>Parent category</label>
+            <select class="form-control" name="parent">
+                {{#if selectedCategory}} 
+                    <option {{#if_eq 0 ../selectedCategory.parent 'selected'}} {{/if_eq}} value="0">
+                        None</option>
+                    {{#each parentCategories}}
+                    <option {{#if_eq _id ../selectedCategory.parent 'selected'}} {{/if_eq}} value="{{ _id }}">{{ name }}
+                    </option>
+                    {{/each}}
+                {{else}}
+                    <option  value="0">None</option>
+                    None</option>
+                    {{#each categories}}
+                    <option  value="{{ _id }}">{{ name }}</option>
+                    {{/each}}
+                {{/if}}
+
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Save</button>
+        </div>
+    </form>
+</div>
+<div class="col-md-6">
+    <h2 class="text-center">List categories</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>link</th>
+                <th>parent</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each categories}}
+                <tr>
+                    <th scope="row"> {{math @index "+" 1}} </th>
+                    <td><a href="/admin/category/edit/{{ _id }}">{{ name }}</a></td>
+                    <td>{{ url }}</td>
+                    <td>{{ pName }}</td>
+                    <td>
+                        <form  method="POST" action="/admin/category/delete/{{ _id }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="submit" class="btn btn-danger btn-xs" value="Remove">
+                        </form>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        {{#if pagination}} 
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                {{#each pagination}}
+                    <li class="page-item {{#if_eq this ../curPage 'active'}} {{/if_eq}}">
+                        <a class="page-link" href="?page={{ this }}">{{ this }}</a>
+                    </li>
+                {{/each}}
+
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        {{/if}}
+
+
+    </nav>
+</div>

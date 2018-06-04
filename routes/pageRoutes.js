@@ -1,17 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var Post = require('../models/posts');
+var Page = require('../models/page');
 
 router.get('/:id', function (req, res) {
 	var id = req.params.id;
 
-	Post.findOne({"_id": id})
-		.exec(function(err, post) {
+	Page.findOne({"title": id})
+		.exec(function(err, page) {
 		    if(err) {
 		      res.send('error occured')
 		    } else {
-					res.render('singlePost',{post: post});
-					
+					res.render('page',{page: page});		
 		    }
 	  });
  });

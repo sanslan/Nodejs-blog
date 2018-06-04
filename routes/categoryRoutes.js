@@ -3,8 +3,8 @@ var router = express.Router();
 var Post = require('../models/posts');
 var Category = require('../models/categories');
 
-router.get('/',async function (req, res) {
-	var categories = await Category.find({});
+router.get('/:category',async function (req, res) {
+	var Categories = await Category.find({ });
 	var limit = 3;
 
 	var page = req.query.page ? req.query.page : 1;
@@ -22,16 +22,11 @@ router.get('/',async function (req, res) {
 	        }
 	    }
 	]);
-	if(count > 0){
-		sum = count[0].count;
-	}
-	else{
-		sum=0;
-	}
-	
+	sum = count[0].count;
 	var isFirstPage = (page == 1) ? true: false;
 	var isLastPage = (page == Math.ceil(sum/limit)) ? true : false;
-	var posts = await Post.find({})
+	var SelectedCategoryUrl =await Category.findOne({url: req.params.category}).select('_id');
+	var posts = await Post.find({categories: { "$in" : [SelectedCategoryUrl._id]}})
 	    		.skip((page-1)*limit)
 				.limit(limit)
 	res.render('index',{
@@ -41,7 +36,7 @@ router.get('/',async function (req, res) {
 		isFirstPage: isFirstPage,
 		isLastPage: isLastPage,
 		sumPages: sum,
-		categories: categories,
+		categories: Categories
 	});
 });
 // define the about route
